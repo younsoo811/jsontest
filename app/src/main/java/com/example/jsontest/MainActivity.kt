@@ -48,7 +48,6 @@ class MainActivity : AppCompatActivity() {
     //==위치 서비스 요청 시 필요한 런처==
     lateinit var getGPSPermissionLauncher: ActivityResultLauncher<Intent>
 
-
     // 위도와 경도를 가져온다
     lateinit var locationProvider: LocationProvider
 
@@ -76,12 +75,15 @@ class MainActivity : AppCompatActivity() {
         val latitude: Double = locationProvider.getLocationLatitude()
         val longitude: Double = locationProvider.getLocationLongitude()
 
+        println("$latitude"+" :위도   "+"$longitude"+" :경도")
+
         if(latitude != 0.0 || longitude != 0.0) {
             // 1. 현재 위치를 가져오고 UI 업데이트
             val address = getCurrentAddress(latitude, longitude)
 
             address?.let{
-                binding.tvLocationTitle.text = "${it.thoroughfare}" //ex 삼산 2동
+                binding.tvLocationTitle.text = "${it.locality} ${it.thoroughfare}" //ex 부평구 삼산 2동
+                println("${it.thoroughfare}")
                 binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"   //ex 대한민국 인천시
             }
 
@@ -132,7 +134,8 @@ class MainActivity : AppCompatActivity() {
     //가져온 데이터 정보를 바탕으로 화면 업데이트
     @RequiresApi(Build.VERSION_CODES.O)
     private fun updateAirUI(airQualityData: AirQaulityResponse) {
-        val pollutionData = airQualityData.data.current.pollution
+        val pollutionData = airQualityData.data.current.pollution   //미세먼지 정보 가져오기
+        val weatherData = airQualityData.data.current.weather      //날시 정보 가져오기
 
         //수치 지정 (메인 화면 가운데 숫자)
         binding.tvCount.text = pollutionData.aqius.toString()
@@ -162,6 +165,45 @@ class MainActivity : AppCompatActivity() {
                 binding.imgBg.setImageResource(R.drawable.bg_worst)
             }
         }
+
+
+        if(weatherData.ic.equals("01d")){
+            binding.imgWt.setImageResource(R.drawable.ic_01d)
+        }
+        else if(weatherData.ic.equals("01n")){
+            binding.imgWt.setImageResource(R.drawable.ic_01n)
+        }
+        else if(weatherData.ic.equals("02d")){
+            binding.imgWt.setImageResource(R.drawable.ic_02d)
+        }
+        else if(weatherData.ic.equals("02n")){
+            binding.imgWt.setImageResource(R.drawable.ic_02n)
+        }
+        else if(weatherData.ic.equals("03d")){
+            binding.imgWt.setImageResource(R.drawable.ic_03d)
+        }
+        else if(weatherData.ic.equals("04d")){
+            binding.imgWt.setImageResource(R.drawable.ic_04d)
+        }
+        else if(weatherData.ic.equals("09d")){
+            binding.imgWt.setImageResource(R.drawable.ic_09d)
+        }
+        else if(weatherData.ic.equals("10n")){
+            binding.imgWt.setImageResource(R.drawable.ic_10n)
+        }
+        else if(weatherData.ic.equals("11d")){
+            binding.imgWt.setImageResource(R.drawable.ic_11d)
+        }
+        else if(weatherData.ic.equals("13d")){
+            binding.imgWt.setImageResource(R.drawable.ic_13d)
+        }
+        else if(weatherData.ic.equals("50d")){
+            binding.imgWt.setImageResource(R.drawable.ic_50d)
+        }
+        else{
+            binding.imgWt.setImageResource(R.drawable.iocn_thunder)
+        }
+
     }
 
     fun getCurrentAddress(latitude: Double, longitude: Double) : Address? {
@@ -169,7 +211,7 @@ class MainActivity : AppCompatActivity() {
         val addresses: List<Address>?   //Address 객체는 주소와 관련된 여러 정보 가짐
 
         addresses = try {
-            geocoder.getFromLocation(latitude, longitude, 7)    //Geocoder 객체를 이용하여 위도와 경도로부터 리스트 가져옴
+            geocoder.getFromLocation(latitude, longitude, 10)    //Geocoder 객체를 이용하여 위도와 경도로부터 리스트 가져옴
         } catch (ioException: IOException) {
             Toast.makeText(this, "지오코더 서비스 사용불가!", Toast.LENGTH_LONG).show()
             return null
@@ -184,7 +226,10 @@ class MainActivity : AppCompatActivity() {
             return null
         }
 
+        println(addresses[0].toString())
+
         val address: Address = addresses[0]
+
         return address
     }
 

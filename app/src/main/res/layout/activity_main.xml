@@ -59,7 +59,8 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_location_title"/>
 
     <ImageView
-        android:layout_width="10dp"
+        android:id="@+id/img_wt"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="9dp"
         android:src="@drawable/iocn_thunder"
@@ -120,7 +121,7 @@
     <TextView
         android:id="@+id/tv_check_time"
         android:text="2021-08-29 13:00"
-        android:layout_width="28dp"
+        android:layout_width="95dp"
         android:layout_height="28dp"
         android:letterSpacing="-0.05"
         android:textColor="#999999"
