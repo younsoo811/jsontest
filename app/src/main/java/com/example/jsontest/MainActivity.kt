@@ -1,8 +1,11 @@
 package com.example.jsontest
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
+import android.content.Context.LOCATION_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,6 +16,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Base64.*
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,6 +34,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 import java.lang.IllegalArgumentException
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -60,7 +67,10 @@ class MainActivity : AppCompatActivity() {
         checkAllPermission()
         updateUI()  //====
         setRefreshButton()
+
     }
+
+
 
     private fun setRefreshButton() {
         binding.btnRefresh.setOnClickListener {
@@ -82,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             val address = getCurrentAddress(latitude, longitude)
 
             address?.let{
-                binding.tvLocationTitle.text = "${it.locality} ${it.thoroughfare}" //ex 부평구 삼산 2동
+                binding.tvLocationTitle.text = "${it.thoroughfare}" //ex 부평구 삼산 2동
                 println("${it.thoroughfare}")
                 binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"   //ex 대한민국 인천시
             }
@@ -166,6 +176,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        println("######## 날씨정보: "+weatherData.ic)
 
         if(weatherData.ic.equals("01d")){
             binding.imgWt.setImageResource(R.drawable.ic_01d)
@@ -179,25 +190,25 @@ class MainActivity : AppCompatActivity() {
         else if(weatherData.ic.equals("02n")){
             binding.imgWt.setImageResource(R.drawable.ic_02n)
         }
-        else if(weatherData.ic.equals("03d")){
+        else if(weatherData.ic.equals("03d") || weatherData.ic.equals("03n")){
             binding.imgWt.setImageResource(R.drawable.ic_03d)
         }
-        else if(weatherData.ic.equals("04d")){
+        else if(weatherData.ic.equals("04d") || weatherData.ic.equals("04n")){
             binding.imgWt.setImageResource(R.drawable.ic_04d)
         }
-        else if(weatherData.ic.equals("09d")){
+        else if(weatherData.ic.equals("09d") || weatherData.ic.equals("09n")){
             binding.imgWt.setImageResource(R.drawable.ic_09d)
         }
-        else if(weatherData.ic.equals("10n")){
+        else if(weatherData.ic.equals("10n") || weatherData.ic.equals("10d")){
             binding.imgWt.setImageResource(R.drawable.ic_10n)
         }
-        else if(weatherData.ic.equals("11d")){
+        else if(weatherData.ic.equals("11d") || weatherData.ic.equals("11n")){
             binding.imgWt.setImageResource(R.drawable.ic_11d)
         }
-        else if(weatherData.ic.equals("13d")){
+        else if(weatherData.ic.equals("13d") || weatherData.ic.equals("13n")){
             binding.imgWt.setImageResource(R.drawable.ic_13d)
         }
-        else if(weatherData.ic.equals("50d")){
+        else if(weatherData.ic.equals("50d") || weatherData.ic.equals("50n")){
             binding.imgWt.setImageResource(R.drawable.ic_50d)
         }
         else{
