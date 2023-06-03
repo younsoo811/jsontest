@@ -95,9 +95,8 @@ class MainActivity : AppCompatActivity() {
                 val subadd = it.getAddressLine(0).toString().split(' ') //공백 기준으로 문자열 자르기
 
                 binding.tvLocationTitle.text = "${subadd[2]} ${subadd[3]} ${subadd[4]}" //ex 부평구 굴포로 105
-                println("주소 잘 나오나???:  "+it.getAddressLine(0).toString())
-                println("${it.thoroughfare}")
-                binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"   //ex 대한민국 인천시
+
+                binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"   //ex 대한민국 인천광역시
             }
 
             // 2. 현재 미세먼지 농도 가져오고 UI 업데이트

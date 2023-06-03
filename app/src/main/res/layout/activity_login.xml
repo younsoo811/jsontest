@@ -7,9 +7,19 @@
     tools:context=".LoginActivity">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_margin="30sp"
+        android:text="어제 그리고 오늘" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="아이디"
+        android:layout_marginTop="30sp"
         android:id="@+id/textView_main_name" />
 
     <EditText
@@ -20,7 +30,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Country"
+        android:text="비밀번호"
         android:id="@+id/textView_main_country" />
 
     <EditText
@@ -28,15 +38,23 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText_main_country" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textColor="#ff0000"
+        android:id="@+id/textView_main_result" />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Insert"
-        android:id="@+id/button_main_insert" />
+        android:text="로그인"
+        android:backgroundTint="#808080"
+        android:id="@+id/button_main_login" />
 
-    <TextView
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/textView_main_result" />
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:id="@+id/button_main_insert" />
 
 </LinearLayout>
