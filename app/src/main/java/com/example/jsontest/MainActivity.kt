@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             val address = getCurrentAddress(latitude, longitude)
 
             address?.let{
-                binding.tvLocationTitle.text = "${it.thoroughfare}" //ex 부평구 삼산 2동
+                binding.tvLocationTitle.text = "${it.thoroughfare} ${it.subThoroughfare}" //ex 부평구 삼산 2동
                 println("${it.thoroughfare}")
                 binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"   //ex 대한민국 인천시
             }
