@@ -92,7 +92,10 @@ class MainActivity : AppCompatActivity() {
             val address = getCurrentAddress(latitude, longitude)
 
             address?.let{
-                binding.tvLocationTitle.text = "${it.thoroughfare} ${it.subThoroughfare}" //ex 부평구 삼산 2동
+                val subadd = it.getAddressLine(0).toString().split(' ') //공백 기준으로 문자열 자르기
+
+                binding.tvLocationTitle.text = "${subadd[2]} ${subadd[3]} ${subadd[4]}" //ex 부평구 굴포로 105
+                println("주소 잘 나오나???:  "+it.getAddressLine(0).toString())
                 println("${it.thoroughfare}")
                 binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"   //ex 대한민국 인천시
             }
@@ -222,7 +225,7 @@ class MainActivity : AppCompatActivity() {
         val addresses: List<Address>?   //Address 객체는 주소와 관련된 여러 정보 가짐
 
         addresses = try {
-            geocoder.getFromLocation(latitude, longitude, 10)    //Geocoder 객체를 이용하여 위도와 경도로부터 리스트 가져옴
+            geocoder.getFromLocation(latitude, longitude, 1)    //Geocoder 객체를 이용하여 위도와 경도로부터 리스트 가져옴
         } catch (ioException: IOException) {
             Toast.makeText(this, "지오코더 서비스 사용불가!", Toast.LENGTH_LONG).show()
             return null
@@ -237,7 +240,8 @@ class MainActivity : AppCompatActivity() {
             return null
         }
 
-        println(addresses[0].toString())
+        println(addresses.get(0).getAddressLine(0).toString())
+
 
         val address: Address = addresses[0]
 
