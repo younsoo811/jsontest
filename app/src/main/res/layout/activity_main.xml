@@ -33,7 +33,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1"/>
+        app:layout_constraintGuide_percent="0.12" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05"/>
+
+    <ImageView
+        android:id="@+id/btn_userif"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_book_24"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tv_hello"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="님 안녕하세요!  "
+        app:layout_constraintEnd_toStartOf="@id/btn_userif"
+        app:layout_constraintTop_toTopOf="@id/btn_userif"
+        app:layout_constraintBottom_toBottomOf="@id/btn_userif"/>
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용자"
+        app:layout_constraintEnd_toStartOf="@id/tv_hello"
+        app:layout_constraintTop_toTopOf="@id/tv_hello"
+        app:layout_constraintBottom_toBottomOf="@id/tv_hello"
+        />
 
     <TextView
         android:id="@+id/tv_location_title"
@@ -70,15 +105,16 @@
 
     <ImageView
         android:id="@+id/img_bg"
-        android:src="@drawable/bg_soso"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/bg_soso"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintVertical_bias="0.4"/>
+        app:layout_constraintEnd_toEndOf="@+id/guideline3"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.43" />
 
     <TextView
         android:id="@+id/tv_count"

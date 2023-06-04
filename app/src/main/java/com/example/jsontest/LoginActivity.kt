@@ -229,8 +229,8 @@ class LoginActivity : AppCompatActivity() {
                 println("===리스트 출력!!   "+mArrayList)
 
                 //로그인 후 다른 액티비티로 전환하기
-                val nextIntent = Intent(mContext, MainActivity::class.java)
-                mContext?.startActivity(nextIntent)
+                //val nextIntent = Intent(mContext, MainActivity::class.java)
+                //mContext?.startActivity(nextIntent)
 
 
 //                val adapter: ListAdapter = SimpleAdapter(

@@ -70,11 +70,18 @@ class MainActivity : AppCompatActivity() {
         if(intent.hasExtra("name")){
             userID=intent.getStringExtra("name")
             println("다른 액티비티에서 변수 불러오기!! : "+userID)
+
+            //유저 아이디 화면에 표시하기
+            binding.tvUserName.text=userID
         }
         else{
             Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
         }
 
+        binding.btnUserif.setOnClickListener {
+            val nextintent = Intent(this, DiaryActivity::class.java)
+            startActivity(nextintent)
+        }
 
         checkAllPermission()
         updateUI()  //====
