@@ -40,7 +40,10 @@ var mArrayList: ArrayList<HashMap<String, String>>? = null
 
 var mJsonString: String? = null
 
+
+
 class LoginActivity : AppCompatActivity() {
+    var name: String? = null
 
 
     lateinit var binding: ActivityLoginBinding
@@ -62,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
         val buttonLognin: Button = findViewById(binding.buttonMainLogin.id) as Button
 
         buttonInsert.setOnClickListener { v ->
-            val name = mEditTextName!!.text.toString()
+            name = mEditTextName!!.text.toString()
             val country = mEditTextCountry!!.text.toString()
             val task = InsertData()
             task.execute("http://$IP_ADDRESS/insert.php", name, country)
@@ -76,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         buttonLognin.setOnClickListener {
-            val name = mEditTextName!!.text.toString()
+            name = mEditTextName!!.text.toString()
             val country = mEditTextCountry!!.text.toString()
             val task = GetData()
 
@@ -84,9 +87,11 @@ class LoginActivity : AppCompatActivity() {
 
             task.execute(country, name)
 
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            intent.putExtra("name", name)
+
             //mEditTextName!!.setText("")
             //mEditTextCountry!!.setText("")
-            keyup()
 
 
         }
@@ -95,17 +100,6 @@ class LoginActivity : AppCompatActivity() {
 
         mArrayList = ArrayList()
 
-    }
-
-    fun keyup(){
-        println("@@@@@@@@@@@@ 함수 호출!!  "+bool)
-        if (bool == 1){
-            //로그인 후 다른 액티비티로 전환하기
-            val nextIntent = Intent(this, MainActivity::class.java)
-            startActivity(nextIntent)
-
-            bool = 0
-        }
     }
 
     internal class InsertData : AsyncTask<String?, Void?, String>() {

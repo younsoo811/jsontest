@@ -179,6 +179,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         println("######## 날씨정보: "+weatherData.ic)
+        val intent = getIntent();
+        println("다른 액티비티에서 변수 불러오기!! : "+intent.getStringExtra("name"))
 
         if(weatherData.ic.equals("01d")){
             binding.imgWt.setImageResource(R.drawable.ic_01d)
