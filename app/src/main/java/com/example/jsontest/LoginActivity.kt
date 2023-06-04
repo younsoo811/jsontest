@@ -10,6 +10,7 @@ import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import com.example.jsontest.databinding.ActivityLoginBinding
 import org.json.JSONArray
 import org.json.JSONException
@@ -87,8 +88,10 @@ class LoginActivity : AppCompatActivity() {
 
             task.execute(country, name)
 
-            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            intent.putExtra("name", name)
+            val nextintent = Intent(this@LoginActivity, MainActivity::class.java)
+            println("넘겨줄 변수 값은?? : "+name)
+            nextintent.putExtra("name", name)
+            startActivity(nextintent)
 
             //mEditTextName!!.setText("")
             //mEditTextCountry!!.setText("")
@@ -228,7 +231,6 @@ class LoginActivity : AppCompatActivity() {
                 //로그인 후 다른 액티비티로 전환하기
                 val nextIntent = Intent(mContext, MainActivity::class.java)
                 mContext?.startActivity(nextIntent)
-
 
 
 //                val adapter: ListAdapter = SimpleAdapter(

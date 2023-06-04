@@ -58,11 +58,23 @@ class MainActivity : AppCompatActivity() {
     // 위도와 경도를 가져온다
     lateinit var locationProvider: LocationProvider
 
+    var userID : String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //val intent = getIntent();
+        if(intent.hasExtra("name")){
+            userID=intent.getStringExtra("name")
+            println("다른 액티비티에서 변수 불러오기!! : "+userID)
+        }
+        else{
+            Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
+        }
+
 
         checkAllPermission()
         updateUI()  //====
@@ -179,8 +191,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         println("######## 날씨정보: "+weatherData.ic)
-        val intent = getIntent();
-        println("다른 액티비티에서 변수 불러오기!! : "+intent.getStringExtra("name"))
 
         if(weatherData.ic.equals("01d")){
             binding.imgWt.setImageResource(R.drawable.ic_01d)
