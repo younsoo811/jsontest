@@ -37,9 +37,9 @@ private const val TAG_ID = "id"
 private const val TAG_NAME = "name"
 private const val TAG_ADDRESS = "country"
 
-var mArrayList: ArrayList<HashMap<String, String>>? = null
+private var mArrayList: ArrayList<HashMap<String, String>>? = null
 
-var mJsonString: String? = null
+private var mJsonString: String? = null
 
 
 
@@ -65,18 +65,18 @@ class LoginActivity : AppCompatActivity() {
         val buttonInsert: Button = findViewById(binding.buttonMainInsert.id) as Button
         val buttonLognin: Button = findViewById(binding.buttonMainLogin.id) as Button
 
-        buttonInsert.setOnClickListener { v ->
-            name = mEditTextName!!.text.toString()
-            val country = mEditTextCountry!!.text.toString()
-            val task = InsertData()
-            task.execute("http://$IP_ADDRESS/insert.php", name, country)
+        buttonInsert.setOnClickListener {
+            //name = mEditTextName!!.text.toString()
+            //val country = mEditTextCountry!!.text.toString()
+            //val task = InsertData()
+            //task.execute("http://$IP_ADDRESS/insert.php", name, country)
 
             //mEditTextName!!.setText("")
             //mEditTextCountry!!.setText("")
 
             //로그인 후 다른 액티비티로 전환하기
-            //val nextIntent = Intent(this, MainActivity::class.java)
-            //startActivity(nextIntent)
+            val nextIntent = Intent(this@LoginActivity, JoinActivity::class.java)
+            startActivity(nextIntent)
         }
 
         buttonLognin.setOnClickListener {
@@ -84,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
             val country = mEditTextCountry!!.text.toString()
             val task = GetData()
 
-            mArrayList?.clear();
+            mArrayList?.clear()
 
             task.execute(country, name)
 
