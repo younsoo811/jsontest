@@ -12,12 +12,15 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
+import android.os.AsyncTask
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.text.method.ScrollingMovementMethod
 import android.util.Base64.*
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,17 +32,36 @@ import com.example.jsontest.databinding.ActivityMainBinding
 import com.example.jsontest.retrofit.AirQaulityResponse
 import com.example.jsontest.retrofit.AirQualityService
 import com.example.jsontest.retrofit.RetrofitConnection
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.BufferedReader
 import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
 import java.lang.IllegalArgumentException
+import java.net.HttpURLConnection
+import java.net.URL
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+
+private val TAG = "jsontest"
+private val IP_ADDRESS = "192.168.55.194"
+private const val TAG_JSON = "webnautes"
+private const val TAG_ID = "id"
+private const val TAG_NAME = "name"
+
+private var TextviewIDCK: TextView? = null
+
+private var mArrayList: ArrayList<HashMap<String, String>>? = null
+private var mJsonString: String? = null
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,6 +88,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        TextviewIDCK = findViewById(binding.tvUserName.id) as  TextView?
+        TextviewIDCK!!.movementMethod = ScrollingMovementMethod()
+
         //val intent = getIntent();
         if(intent.hasExtra("name")){
             userID=intent.getStringExtra("name")
@@ -77,6 +102,10 @@ class MainActivity : AppCompatActivity() {
         else{
             Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
         }
+
+        val task = SearchData()
+        mArrayList?.clear()
+        task.execute(userID)
 
         binding.btnUserif.setOnClickListener {
             val nextintent = Intent(this, DiaryActivity::class.java)
@@ -380,5 +409,101 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
+    internal class SearchData : AsyncTask<String?, Void?, String?>() {
+        var errorString: String? = null
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            TextviewIDCK!!.text = result
+            Log.d(TAG, "response - $result")
+            if (result == null) {
+                TextviewIDCK!!.text = errorString
+            } else {
+                mJsonString = result
+                showResult()
+            }
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val searchKeyword1 = params[0]
+            //val searchKeyword2 = params[1]
+            val serverURL = "http://192.168.55.194/namesh.php"
+            val postParameters = "name=$searchKeyword1"
+            return try {
+                val url = URL(serverURL)
+                val httpURLConnection = url.openConnection() as HttpURLConnection
+                httpURLConnection.readTimeout = 5000
+                httpURLConnection.connectTimeout = 5000
+                httpURLConnection.requestMethod = "POST"
+                httpURLConnection.doInput = true
+                httpURLConnection.connect()
+                val outputStream = httpURLConnection.outputStream
+                outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+                outputStream.flush()
+                outputStream.close()
+                val responseStatusCode = httpURLConnection.responseCode
+                Log.d(TAG, "response code - $responseStatusCode")
+                val inputStream: InputStream
+                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.inputStream
+                } else {
+                    httpURLConnection.errorStream
+                }
+                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+                val bufferedReader = BufferedReader(inputStreamReader)
+                val sb = java.lang.StringBuilder()
+                var line: String?
+                while (bufferedReader.readLine().also { line = it } != null) {
+                    sb.append(line)
+                }
+                bufferedReader.close()
+                sb.toString().trim { it <= ' ' }
+            } catch (e: java.lang.Exception) {
+                Log.d(TAG, "InsertData: Error ", e);
+                errorString = e.toString();
+
+                return null
+            }
+        }
+
+        private fun showResult() {
+            try {
+                val jsonObject = JSONObject(mJsonString)
+                val jsonArray: JSONArray = jsonObject.getJSONArray(TAG_JSON)
+                for (i in 0 until jsonArray.length()) {
+                    val item = jsonArray.getJSONObject(i)
+                    val id = item.getString(TAG_ID)
+                    val name = item.getString(TAG_NAME)
+                    val hashMap: HashMap<String, String> = HashMap()
+                    hashMap[TAG_ID] = id
+                    hashMap[TAG_NAME] = name
+                    mArrayList?.add(hashMap)
+                }
+                println("===리스트 출력!!   "+mArrayList)
+
+
+                //로그인 후 다른 액티비티로 전환하기
+                //val nextIntent = Intent(mContext, MainActivity::class.java)
+                //mContext?.startActivity(nextIntent)
+
+
+//                val adapter: ListAdapter = SimpleAdapter(
+//                    this,
+//                    mArrayList,
+//                    R.layout.item_list,
+//                    arrayOf(TAG_ID, TAG_NAME, TAG_ADDRESS),
+//                    intArrayOf(
+//                        R.id.textView_list_id,
+//                        R.id.textView_list_name,
+//                        R.id.textView_list_address
+//                    )
+//                )
+//                mListViewList.setAdapter(adapter)
+            } catch (e: JSONException) {
+                Log.d(TAG, "showResult : ", e)
+            }
+        }
+    }
 
 }
