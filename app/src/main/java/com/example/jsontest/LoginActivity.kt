@@ -40,11 +40,11 @@ private const val TAG_ADDRESS = "country"
 private var mArrayList: ArrayList<HashMap<String, String>>? = null
 
 private var mJsonString: String? = null
-
+private var name: String? = null
 
 
 class LoginActivity : AppCompatActivity() {
-    var name: String? = null
+
 
 
     lateinit var binding: ActivityLoginBinding
@@ -88,10 +88,14 @@ class LoginActivity : AppCompatActivity() {
 
             task.execute(country, name)
 
-            val nextintent = Intent(this@LoginActivity, MainActivity::class.java)
+            //val nextintent = Intent(this@LoginActivity, MainActivity::class.java)
             println("넘겨줄 변수 값은?? : "+name)
-            nextintent.putExtra("name", name)
-            startActivity(nextintent)
+
+//            if(mTextViewResult!!.text.toString().equals("로그인 성공!")){
+//                nextintent.putExtra("name", name)
+//                startActivity(nextintent)
+//            }
+
 
             //mEditTextName!!.setText("")
             //mEditTextCountry!!.setText("")
@@ -162,8 +166,10 @@ class LoginActivity : AppCompatActivity() {
             mTextViewResult!!.text = result
             Log.d(TAG, "response - $result")
             if (result == null) {
+                println("if문 실행!")
                 mTextViewResult!!.text = errorString
             } else {
+                println("else문 실행!")
                 mJsonString = result
                 showResult()
             }
@@ -228,10 +234,6 @@ class LoginActivity : AppCompatActivity() {
                 }
                 println("===리스트 출력!!   "+mArrayList)
 
-                //로그인 후 다른 액티비티로 전환하기
-                //val nextIntent = Intent(mContext, MainActivity::class.java)
-                //mContext?.startActivity(nextIntent)
-
 
 //                val adapter: ListAdapter = SimpleAdapter(
 //                    this,
@@ -246,6 +248,12 @@ class LoginActivity : AppCompatActivity() {
 //                )
 //                mListViewList.setAdapter(adapter)
             } catch (e: JSONException) {
+                //로그인 후 다른 액티비티로 전환하기
+                if(mTextViewResult!!.text.toString().equals("로그인 성공!")) {
+                    val nextIntent = Intent(mContext, MainActivity::class.java)
+                    nextIntent.putExtra("name", name)
+                    mContext?.startActivity(nextIntent)
+                }
                 Log.d(TAG, "showResult : ", e)
             }
         }

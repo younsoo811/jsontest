@@ -6,7 +6,6 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,11 +16,20 @@ import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
 private val TAG = "jsontest"
+private val IP_ADDRESS = "192.168.55.194"
+
 private var TextviewIDCK: TextView? = null
+private var mTextViewResult: TextView? = null
+private var EtextId: EditText? = null
+private var EtextPw: EditText? = null
+private var EtextName: EditText? = null
+private var EtextCall: EditText? = null
+
 
 private const val TAG_JSON = "webnautes"
 private const val TAG_ID = "id"
@@ -40,13 +48,19 @@ class JoinActivity : AppCompatActivity() {
         binding = ActivityJoinBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        EtextId = findViewById(binding.editTextJoinId.id) as EditText?
+        EtextPw = findViewById(binding.editTextJoinPasswd.id) as EditText?
+        EtextName = findViewById(binding.editTextJoinName.id) as EditText?
+        EtextCall = findViewById(binding.editTextJoinCall.id) as EditText?
 
         TextviewIDCK = findViewById(binding.textViewJoinIdck.id) as  TextView?
         TextviewIDCK!!.movementMethod = ScrollingMovementMethod()
+        mTextViewResult = findViewById(binding.textViewMainResult.id) as TextView?
+        mTextViewResult!!.movementMethod = ScrollingMovementMethod()
 
        //중복 확인 버튼
         binding.buttonJoinCheck.setOnClickListener {
-            val newId = binding.textViewJoinId!!.text.toString()
+            val newId = binding.editTextJoinId!!.text.toString()
             val task = GetID()
 
             mArrayList?.clear()
@@ -56,9 +70,30 @@ class JoinActivity : AppCompatActivity() {
         }
 //
 //        //회원가입 버튼
-//        buttonJoins.setOnClickListener {
-//
-//        }
+        binding.buttonJoin.setOnClickListener {
+            val name = EtextId!!.text.toString()
+            val country = EtextPw!!.text.toString()
+            val uname = EtextName!!.text.toString()
+            val ucall = EtextCall!!.text.toString()
+
+            val task = JoinData()
+            if (TextviewIDCK!!.text.toString().equals("사용가능한 ID")){
+                println("아이디 생성!!!!")
+                task.execute("http://$IP_ADDRESS/join.php", name, country, uname, ucall)
+
+                EtextId!!.setText("")
+                EtextPw!!.setText("")
+                EtextName!!.setText("")
+                EtextCall!!.setText("")
+                TextviewIDCK!!.text="id 중복 확인"
+            }
+            else{
+                println("아이디 생성 실패!!!!ㅁㅁㅁㅁ"+ TextviewIDCK!!.text)
+                mTextViewResult!!.text = "아이디 중복을 확인해주세요!"
+            }
+
+
+        }
 
         //나가기 버튼
         binding.buttonJoinExit.setOnClickListener {
@@ -69,6 +104,58 @@ class JoinActivity : AppCompatActivity() {
         mArrayList = ArrayList()
 
     }
+
+    internal class JoinData : AsyncTask<String?, Void?, String>() {
+
+
+        override fun onPostExecute(result: String) {
+            super.onPostExecute(result)
+            mTextViewResult?.setText(result)
+            Log.d(TAG, "POST response  - $result")
+        }
+
+        override fun doInBackground(vararg params: String?): String {
+            val name = params[1]
+            val country = params[2]
+            val uname = params[3]
+            val ucall = params[4]
+            val serverURL = params[0]
+            val postParameters = "name=$name&country=$country&uname=$uname&ucall=$ucall"
+            return try {
+                val url = URL(serverURL)
+                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+                httpURLConnection.setReadTimeout(5000)
+                httpURLConnection.setConnectTimeout(5000)
+                httpURLConnection.setRequestMethod("POST")
+                httpURLConnection.connect()
+                val outputStream: OutputStream = httpURLConnection.getOutputStream()
+                outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+                outputStream.flush()
+                outputStream.close()
+                val responseStatusCode: Int = httpURLConnection.getResponseCode()
+                Log.d(TAG, "POST response code - $responseStatusCode")
+                val inputStream: InputStream
+                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.getInputStream()
+                } else {
+                    httpURLConnection.getErrorStream()
+                }
+                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+                val bufferedReader = BufferedReader(inputStreamReader)
+                val sb = StringBuilder()
+                var line: String? = null
+                while (bufferedReader.readLine().also { line = it } != null) {
+                    sb.append(line)
+                }
+                bufferedReader.close()
+                sb.toString()
+            } catch (e: Exception) {
+                Log.d(TAG, "InsertData: Error ", e)
+                "Error: " + e.message
+            }
+        }
+    }
+
 
     internal class GetID : AsyncTask<String?, Void?, String?>() {
         var errorString: String? = null

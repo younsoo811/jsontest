@@ -61,7 +61,7 @@
         android:id="@+id/textView_join_name" />
 
     <EditText
-        android:id="@+id/textView_join_id"
+        android:id="@+id/editText_join_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@+id/guideline3"
@@ -84,16 +84,16 @@
         android:layout_height="wrap_content"
         android:text="중복확인"
         android:backgroundTint="#808080"
-        app:layout_constraintStart_toEndOf="@+id/textView_join_id"
-        app:layout_constraintTop_toTopOf="@+id/textView_join_id"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_join_id"
+        app:layout_constraintStart_toEndOf="@+id/editText_join_id"
+        app:layout_constraintTop_toTopOf="@+id/editText_join_id"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_join_id"
         android:layout_marginStart="9dp"
         android:id="@+id/button_join_check" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textView_join_id"
+        app:layout_constraintTop_toBottomOf="@+id/editText_join_id"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         android:layout_marginTop="9dp"
         android:text="비밀번호"
