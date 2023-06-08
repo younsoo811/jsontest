@@ -106,7 +106,8 @@ class UpdateActivity : AppCompatActivity() {
             val task = JoinData()
             if (TextviewIDCK!!.text.toString().equals("사용가능한 ID")){
                 println("아이디 생성!!!!")
-                task.execute("http://$IP_ADDRESS/join.php", name, country, uname, ucall)
+                println(userID)
+                task.execute("http://$IP_ADDRESS/update.php", userID, name, country, uname, ucall)
 
                 TextviewIDCK!!.text="id 중복 확인"
             }
@@ -114,7 +115,6 @@ class UpdateActivity : AppCompatActivity() {
                 println("아이디 생성 실패!!!!ㅁㅁㅁㅁ"+ TextviewIDCK!!.text)
                 mTextViewResult!!.text = "아이디 중복을 확인해주세요!"
             }
-
 
         }
 
@@ -139,12 +139,13 @@ class UpdateActivity : AppCompatActivity() {
         }
 
         override fun doInBackground(vararg params: String?): String {
-            val name = params[1]
-            val country = params[2]
-            val uname = params[3]
-            val ucall = params[4]
+            val oname = params[1]
+            val name = params[2]
+            val country = params[3]
+            val uname = params[4]
+            val ucall = params[5]
             val serverURL = params[0]
-            val postParameters = "name=$name&country=$country&uname=$uname&ucall=$ucall"
+            val postParameters = "oname=$oname&name=$name&country=$country&uname=$uname&ucall=$ucall"
             return try {
                 val url = URL(serverURL)
                 val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
