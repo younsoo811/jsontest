@@ -96,8 +96,8 @@ class MainActivity : AppCompatActivity() {
             userID=intent.getStringExtra("name")
             println("다른 액티비티에서 변수 불러오기!! : "+userID)
 
-            //유저 아이디 화면에 표시하기
-            binding.tvUserName.text=userID
+            //유저 아이디 화면에 표시하기(임시로 지움)
+            //binding.tvUserName.text=userID
         }
         else{
             Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
             address?.let{
                 val subadd = it.getAddressLine(0).toString().split(' ') //공백 기준으로 문자열 자르기
 
-                binding.tvLocationTitle.text = "${subadd[2]} ${subadd[3]} ${subadd[4]}" //ex 부평구 굴포로 105
+                binding.tvLocationTitle.text = "${subadd[2]}" //ex 부평구
 
                 binding.tvLocationSubtitle.text = "${it.countryName} ${it.adminArea}"   //ex 대한민국 인천광역시
             }

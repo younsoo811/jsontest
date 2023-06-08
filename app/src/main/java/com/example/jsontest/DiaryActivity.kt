@@ -20,6 +20,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
+var dContext: Context? = null
+
 private val TAG = "jsontest"
 private val IP_ADDRESS = "192.168.55.194"
 
@@ -39,6 +41,9 @@ private var mArrayList: ArrayList<HashMap<String, String>>? = null
 
 private var mJsonString: String? = null
 
+private var userID : String? = null
+private var userif : String? = null
+
 class DiaryActivity : AppCompatActivity(), View.OnClickListener {
 
     //바인딩 객체 선언
@@ -54,7 +59,8 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
         Dog("Shih Tzu", "2023-06-01 10:00", "좋음", "ic_01n")
     )
 
-    var userID : String? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +69,7 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityDiaryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        dContext = this
 
         val dogAdapter = DiaryListAdapter(this, dogList)
         binding.mainListView.adapter = dogAdapter
@@ -76,6 +83,16 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
             Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
         }
 
+        binding.btnUserUp.setOnClickListener{
+            val nextintent = Intent(this, UpdateActivity::class.java)
+
+            val task = DiaryActivity.seData()
+            task.execute("http://$IP_ADDRESS/allsh.php", userID)
+
+            //nextintent.putExtra("name", userID)
+            //nextintent.putExtra("nameif", userif)
+            //startActivity(nextintent)
+        }
 
         binding.btnUserDel.setOnClickListener(this)
     }
@@ -93,6 +110,61 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
                     task.execute("http://$IP_ADDRESS/delete.php", userID)
                 }
                 dlg.show("회원탈퇴를 하시겠습니까?")
+            }
+        }
+    }
+
+    internal class seData : AsyncTask<String?, Void?, String>() {
+
+
+        override fun onPostExecute(result: String) {
+            super.onPostExecute(result)
+            userif = result
+
+            val nextIntent = Intent(dContext, UpdateActivity::class.java)
+            nextIntent.putExtra("name", userID)
+            nextIntent.putExtra("nameif", userif)
+            dContext?.startActivity(nextIntent)
+
+            //EtextId?.setText(result)
+            Log.d(TAG, "POST response  - $result")
+        }
+
+        override fun doInBackground(vararg params: String?): String {
+            val name = params[1]
+            val serverURL = params[0]
+            val postParameters = "name=$name"
+            return try {
+                val url = URL(serverURL)
+                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
+                httpURLConnection.setReadTimeout(5000)
+                httpURLConnection.setConnectTimeout(5000)
+                httpURLConnection.setRequestMethod("POST")
+                httpURLConnection.connect()
+                val outputStream: OutputStream = httpURLConnection.getOutputStream()
+                outputStream.write(postParameters.toByteArray(charset("UTF-8")))
+                outputStream.flush()
+                outputStream.close()
+                val responseStatusCode: Int = httpURLConnection.getResponseCode()
+                Log.d(TAG, "POST response code - $responseStatusCode")
+                val inputStream: InputStream
+                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    httpURLConnection.getInputStream()
+                } else {
+                    httpURLConnection.getErrorStream()
+                }
+                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
+                val bufferedReader = BufferedReader(inputStreamReader)
+                val sb = StringBuilder()
+                var line: String? = null
+                while (bufferedReader.readLine().also { line = it } != null) {
+                    sb.append(line)
+                }
+                bufferedReader.close()
+                sb.toString()
+            } catch (e: Exception) {
+                Log.d(TAG, "InsertData: Error ", e)
+                "Error: " + e.message
             }
         }
     }
