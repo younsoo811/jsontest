@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnUserif.setOnClickListener {
             val nextintent = Intent(this, DiaryActivity::class.java)
+            nextintent.putExtra("name", userID)
             startActivity(nextintent)
         }
 
