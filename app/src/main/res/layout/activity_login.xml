@@ -57,4 +57,12 @@
         android:text="회원가입"
         android:id="@+id/button_main_insert" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="비회원 로그인"
+        android:backgroundTint="#808080"
+        android:layout_marginTop="40dp"
+        android:id="@+id/button_main_unknown" />
+
 </LinearLayout>

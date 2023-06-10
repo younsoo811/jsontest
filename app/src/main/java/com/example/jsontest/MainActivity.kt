@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var locationProvider: LocationProvider
 
     var userID : String? = null
+    var checkTime : String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,6 +111,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnUserif.setOnClickListener {
             val nextintent = Intent(this, DiaryActivity::class.java)
             nextintent.putExtra("name", userID)
+            nextintent.putExtra("time", checkTime)
             startActivity(nextintent)
         }
 
@@ -206,7 +208,9 @@ class MainActivity : AppCompatActivity() {
             ZoneId.of("Asia/Seoul")).toLocalDateTime()
         val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
-        binding.tvCheckTime.text = dateTime.format(dateFormatter).toString()
+        //관측 시간 보여주기
+        checkTime = dateTime.format(dateFormatter).toString()
+        binding.tvCheckTime.text = checkTime
 
         when (pollutionData.aqius) {
             in 0..50 -> {

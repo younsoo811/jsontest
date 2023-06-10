@@ -206,22 +206,16 @@
 
 
     <EditText
-        android:id="@+id/edt_id"
+        android:id="@+id/edt_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="ID"
+        android:hint="날짜"
         android:inputType="number" />
 
     <EditText
-        android:id="@+id/edt_name"
-        android:hint="Name"
+        android:id="@+id/edt_diary"
+        android:hint="내용 작성"
         android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/edt_email"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

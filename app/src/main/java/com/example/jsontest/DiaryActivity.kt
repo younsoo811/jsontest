@@ -43,6 +43,7 @@ private var mJsonString: String? = null
 
 private var userID : String? = null
 private var userif : String? = null
+private var checkTime : String? = null
 
 class DiaryActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -50,13 +51,13 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var binding: ActivityDiaryBinding
 
     var dogList = arrayListOf<Dog>(
-        Dog("Chow Chow", "2023-06-05 10:00", "보통", "ic_01d"),
-        Dog("Breed Pomeranian", "2023-06-04 08:00", "좋음", "ic_11d"),
-        Dog("Golden Retriver", "2023-06-03 10:00", "보통", "ic_10n"),
-        Dog("Yorkshire Terrier", "2023-06-02 20:00", "나쁨", "ic_50d"),
-        Dog("Pug", "2023-06-02 09:00", "나쁨", "ic_02n"),
-        Dog("Alaskan Malamute", "2023-06-01 19:00", "나쁨", "ic_03d"),
-        Dog("Shih Tzu", "2023-06-01 10:00", "좋음", "ic_01n")
+        Dog("오늘은 어쩌구 저쩌구...", "2023-06-05 10:00", "보통", "ic_01d"),
+        Dog("방금 엄청 좋은 새 소리를...", "2023-06-04 08:00", "좋음", "ic_11d"),
+        Dog("늦잠을 잤다...", "2023-06-03 10:00", "보통", "ic_10n"),
+        Dog("외식을 하고 산책을 하던 중...", "2023-06-02 20:00", "나쁨", "ic_50d"),
+        Dog("늦잠을 자고 싶었지만 중요한...", "2023-06-02 09:00", "나쁨", "ic_02n"),
+        Dog("어제 그리고 오늘 앱 설치!!", "2023-06-01 19:00", "나쁨", "ic_03d"),
+        Dog("TEST", "2023-06-01 10:00", "좋음", "ic_01n")
     )
 
 
@@ -76,6 +77,9 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
 
         if(intent.hasExtra("name")){
             userID=intent.getStringExtra("name")
+            checkTime=intent.getStringExtra("time")
+
+            binding.edtDate.setText(checkTime)
             println("메인 액티비티에서 변수 불러오기!! : "+userID)
 
         }

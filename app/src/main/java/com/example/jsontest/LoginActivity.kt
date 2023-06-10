@@ -66,13 +66,6 @@ class LoginActivity : AppCompatActivity() {
         val buttonLognin: Button = findViewById(binding.buttonMainLogin.id) as Button
 
         buttonInsert.setOnClickListener {
-            //name = mEditTextName!!.text.toString()
-            //val country = mEditTextCountry!!.text.toString()
-            //val task = InsertData()
-            //task.execute("http://$IP_ADDRESS/insert.php", name, country)
-
-            //mEditTextName!!.setText("")
-            //mEditTextCountry!!.setText("")
 
             //로그인 후 다른 액티비티로 전환하기
             val nextIntent = Intent(this@LoginActivity, JoinActivity::class.java)
@@ -91,18 +84,14 @@ class LoginActivity : AppCompatActivity() {
             //val nextintent = Intent(this@LoginActivity, MainActivity::class.java)
             println("넘겨줄 변수 값은?? : "+name)
 
-//            if(mTextViewResult!!.text.toString().equals("로그인 성공!")){
-//                nextintent.putExtra("name", name)
-//                startActivity(nextintent)
-//            }
-
-
-            //mEditTextName!!.setText("")
-            //mEditTextCountry!!.setText("")
-
 
         }
 
+        binding.buttonMainUnknown.setOnClickListener {
+            val ukIntent = Intent(this, MainActivity::class.java)
+            ukIntent.putExtra("name", "비회원")
+            startActivity(ukIntent)
+        }
 
 
         mArrayList = ArrayList()
