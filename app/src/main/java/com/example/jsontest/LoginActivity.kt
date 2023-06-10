@@ -23,9 +23,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 var mContext: Context? = null
-private var bool = 0
 
-private val IP_ADDRESS = "192.168.55.194"
 private val TAG = "jsontest"
 
 private var mEditTextName: EditText? = null
@@ -44,8 +42,6 @@ private var name: String? = null
 
 
 class LoginActivity : AppCompatActivity() {
-
-
 
     lateinit var binding: ActivityLoginBinding
 
@@ -81,7 +77,6 @@ class LoginActivity : AppCompatActivity() {
 
             task.execute(country, name)
 
-            //val nextintent = Intent(this@LoginActivity, MainActivity::class.java)
             println("넘겨줄 변수 값은?? : "+name)
 
 
@@ -98,54 +93,6 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    internal class InsertData : AsyncTask<String?, Void?, String>() {
-
-
-        override fun onPostExecute(result: String) {
-            super.onPostExecute(result)
-            mTextViewResult?.setText(result)
-            Log.d(TAG, "POST response  - $result")
-        }
-
-        override fun doInBackground(vararg params: String?): String {
-            val name = params[1]
-            val country = params[2]
-            val serverURL = params[0]
-            val postParameters = "name=$name&country=$country"
-            return try {
-                val url = URL(serverURL)
-                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
-                httpURLConnection.setReadTimeout(5000)
-                httpURLConnection.setConnectTimeout(5000)
-                httpURLConnection.setRequestMethod("POST")
-                httpURLConnection.connect()
-                val outputStream: OutputStream = httpURLConnection.getOutputStream()
-                outputStream.write(postParameters.toByteArray(charset("UTF-8")))
-                outputStream.flush()
-                outputStream.close()
-                val responseStatusCode: Int = httpURLConnection.getResponseCode()
-                Log.d(TAG, "POST response code - $responseStatusCode")
-                val inputStream: InputStream
-                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    httpURLConnection.getInputStream()
-                } else {
-                    httpURLConnection.getErrorStream()
-                }
-                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
-                val bufferedReader = BufferedReader(inputStreamReader)
-                val sb = StringBuilder()
-                var line: String? = null
-                while (bufferedReader.readLine().also { line = it } != null) {
-                    sb.append(line)
-                }
-                bufferedReader.close()
-                sb.toString()
-            } catch (e: Exception) {
-                Log.d(TAG, "InsertData: Error ", e)
-                "Error: " + e.message
-            }
-        }
-    }
 
     internal class GetData : AsyncTask<String?, Void?, String?>() {
         var errorString: String? = null
@@ -224,18 +171,6 @@ class LoginActivity : AppCompatActivity() {
                 println("===리스트 출력!!   "+mArrayList)
 
 
-//                val adapter: ListAdapter = SimpleAdapter(
-//                    this,
-//                    mArrayList,
-//                    R.layout.item_list,
-//                    arrayOf(TAG_ID, TAG_NAME, TAG_ADDRESS),
-//                    intArrayOf(
-//                        R.id.textView_list_id,
-//                        R.id.textView_list_name,
-//                        R.id.textView_list_address
-//                    )
-//                )
-//                mListViewList.setAdapter(adapter)
             } catch (e: JSONException) {
                 //로그인 후 다른 액티비티로 전환하기
                 if(mTextViewResult!!.text.toString().equals("로그인 성공!")) {

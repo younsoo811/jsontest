@@ -1,14 +1,12 @@
 package com.example.jsontest
 
-import android.app.Dialog
+
 import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.jsontest.databinding.ActivityDiaryBinding
@@ -25,21 +23,6 @@ var dContext: Context? = null
 private val TAG = "jsontest"
 private val IP_ADDRESS = "192.168.55.194"
 
-private var TextviewIDCK: TextView? = null
-private var mTextViewResult: TextView? = null
-private var EtextId: EditText? = null
-private var EtextPw: EditText? = null
-private var EtextName: EditText? = null
-private var EtextCall: EditText? = null
-
-
-private const val TAG_JSON = "webnautes"
-private const val TAG_ID = "id"
-private const val TAG_NAME = "name"
-
-private var mArrayList: ArrayList<HashMap<String, String>>? = null
-
-private var mJsonString: String? = null
 
 private var userID : String? = null
 private var userif : String? = null
@@ -50,22 +33,13 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
     //바인딩 객체 선언
     lateinit var binding: ActivityDiaryBinding
 
-    var dogList = arrayListOf<Dog>(
-        Dog("오늘은 어쩌구 저쩌구...", "2023-06-05 10:00", "보통", "ic_01d"),
-        Dog("방금 엄청 좋은 새 소리를...", "2023-06-04 08:00", "좋음", "ic_11d"),
-        Dog("늦잠을 잤다...", "2023-06-03 10:00", "보통", "ic_10n"),
-        Dog("외식을 하고 산책을 하던 중...", "2023-06-02 20:00", "나쁨", "ic_50d"),
-        Dog("늦잠을 자고 싶었지만 중요한...", "2023-06-02 09:00", "나쁨", "ic_02n"),
-        Dog("어제 그리고 오늘 앱 설치!!", "2023-06-01 19:00", "나쁨", "ic_03d"),
-        Dog("TEST", "2023-06-01 10:00", "좋음", "ic_01n")
-    )
+    var dogList = arrayListOf<Dog>()
 
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_diary)
 
         binding = ActivityDiaryBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -88,14 +62,20 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         binding.btnUserUp.setOnClickListener{
-            val nextintent = Intent(this, UpdateActivity::class.java)
-
+            //setData()에서 회원정보 수정 페이지 이동시킴
             val task = DiaryActivity.seData()
             task.execute("http://$IP_ADDRESS/allsh.php", userID)
 
-            //nextintent.putExtra("name", userID)
-            //nextintent.putExtra("nameif", userif)
-            //startActivity(nextintent)
+        }
+
+        binding.btnUp.setOnClickListener {
+            Toast.makeText(this,"서버에 연결할 수 없습니다!",Toast.LENGTH_SHORT).show()
+        }
+        binding.btnDel.setOnClickListener {
+            Toast.makeText(this,"서버에 연결할 수 없습니다!",Toast.LENGTH_SHORT).show()
+        }
+        binding.btnAdd.setOnClickListener {
+            Toast.makeText(this,"서버에 연결할 수 없습니다!",Toast.LENGTH_SHORT).show()
         }
 
         binding.btnUserDel.setOnClickListener(this)
@@ -125,6 +105,7 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
             super.onPostExecute(result)
             userif = result
 
+            //회원 정보 수정 페이지로 이동
             val nextIntent = Intent(dContext, UpdateActivity::class.java)
             nextIntent.putExtra("name", userID)
             nextIntent.putExtra("nameif", userif)

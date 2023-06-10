@@ -52,8 +52,6 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-private val TAG = "jsontest"
-private val IP_ADDRESS = "192.168.55.194"
 private const val TAG_JSON = "webnautes"
 private const val TAG_ID = "id"
 private const val TAG_NAME = "name"
@@ -97,8 +95,6 @@ class MainActivity : AppCompatActivity() {
             userID=intent.getStringExtra("name")
             println("다른 액티비티에서 변수 불러오기!! : "+userID)
 
-            //유저 아이디 화면에 표시하기(임시로 지움)
-            //binding.tvUserName.text=userID
         }
         else{
             Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
@@ -432,7 +428,6 @@ class MainActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg params: String?): String? {
             val searchKeyword1 = params[0]
-            //val searchKeyword2 = params[1]
             val serverURL = "http://192.168.55.194/namesh.php"
             val postParameters = "name=$searchKeyword1"
             return try {
@@ -488,23 +483,6 @@ class MainActivity : AppCompatActivity() {
                 println("===리스트 출력!!   "+mArrayList)
 
 
-                //로그인 후 다른 액티비티로 전환하기
-                //val nextIntent = Intent(mContext, MainActivity::class.java)
-                //mContext?.startActivity(nextIntent)
-
-
-//                val adapter: ListAdapter = SimpleAdapter(
-//                    this,
-//                    mArrayList,
-//                    R.layout.item_list,
-//                    arrayOf(TAG_ID, TAG_NAME, TAG_ADDRESS),
-//                    intArrayOf(
-//                        R.id.textView_list_id,
-//                        R.id.textView_list_name,
-//                        R.id.textView_list_address
-//                    )
-//                )
-//                mListViewList.setAdapter(adapter)
             } catch (e: JSONException) {
                 Log.d(TAG, "showResult : ", e)
             }

@@ -202,7 +202,6 @@ class UpdateActivity : AppCompatActivity() {
 
         override fun doInBackground(vararg params: String?): String? {
             val searchKeyword1 = params[0]
-            //val searchKeyword2 = params[1]
             val serverURL = "http://192.168.55.194/search.php"
             val postParameters = "name=$searchKeyword1"
             return try {
@@ -258,23 +257,6 @@ class UpdateActivity : AppCompatActivity() {
                 println("===리스트 출력!!   "+mArrayList)
 
 
-                //로그인 후 다른 액티비티로 전환하기
-                //val nextIntent = Intent(mContext, MainActivity::class.java)
-                //mContext?.startActivity(nextIntent)
-
-
-//                val adapter: ListAdapter = SimpleAdapter(
-//                    this,
-//                    mArrayList,
-//                    R.layout.item_list,
-//                    arrayOf(TAG_ID, TAG_NAME, TAG_ADDRESS),
-//                    intArrayOf(
-//                        R.id.textView_list_id,
-//                        R.id.textView_list_name,
-//                        R.id.textView_list_address
-//                    )
-//                )
-//                mListViewList.setAdapter(adapter)
             } catch (e: JSONException) {
                 Log.d(TAG, "showResult : ", e)
             }

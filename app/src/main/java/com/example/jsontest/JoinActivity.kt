@@ -232,24 +232,6 @@ class JoinActivity : AppCompatActivity() {
                 }
                 println("===리스트 출력!!   "+mArrayList)
 
-
-                //로그인 후 다른 액티비티로 전환하기
-                //val nextIntent = Intent(mContext, MainActivity::class.java)
-                //mContext?.startActivity(nextIntent)
-
-
-//                val adapter: ListAdapter = SimpleAdapter(
-//                    this,
-//                    mArrayList,
-//                    R.layout.item_list,
-//                    arrayOf(TAG_ID, TAG_NAME, TAG_ADDRESS),
-//                    intArrayOf(
-//                        R.id.textView_list_id,
-//                        R.id.textView_list_name,
-//                        R.id.textView_list_address
-//                    )
-//                )
-//                mListViewList.setAdapter(adapter)
             } catch (e: JSONException) {
                 Log.d(TAG, "showResult : ", e)
             }
