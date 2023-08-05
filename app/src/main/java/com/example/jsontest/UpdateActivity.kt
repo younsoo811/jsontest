@@ -112,7 +112,7 @@ class UpdateActivity : AppCompatActivity() {
                 TextviewIDCK!!.text="id 중복 확인"
             }
             else{
-                println("아이디 생성 실패!!!!ㅁㅁㅁㅁ"+ TextviewIDCK!!.text)
+                println("아이디 생성 실패!!!!"+ TextviewIDCK!!.text)
                 mTextViewResult!!.text = "아이디 중복을 확인해주세요!"
             }
 
