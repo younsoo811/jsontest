@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.22"/>
+        app:layout_constraintGuide_begin="161dp" />
 
 
     <TextView
@@ -50,109 +50,65 @@
         android:gravity="center"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:text="회원 정보 수정" />
+        android:text="회원 정보" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="아이디"
-        app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        android:id="@+id/textView_join_name" />
-
-    <EditText
-        android:id="@+id/editText_join_id"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="ID"
-        app:layout_constraintEnd_toEndOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/textView_join_name" />
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="id 중복 확인"
-        android:textColor="#ff0000"
-        app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
+    <ImageView
+        android:id="@+id/imageView_user_profile"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/user_img"
+        app:layout_constraintTop_toBottomOf="@+id/guideline6"
+        tools:ignore="MissingConstraints"
         app:layout_constraintEnd_toEndOf="@+id/guideline2"
-        android:gravity="center"
-        android:id="@+id/textView_join_idck" />
-
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="중복확인"
-        android:backgroundTint="#808080"
-        app:layout_constraintStart_toEndOf="@+id/editText_join_id"
-        app:layout_constraintTop_toTopOf="@+id/editText_join_id"
-        app:layout_constraintBottom_toBottomOf="@+id/editText_join_id"
-        android:layout_marginStart="9dp"
-        android:id="@+id/button_join_check" />
+        app:layout_constraintStart_toStartOf="@+id/guideline1" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/editText_join_id"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_user_profile"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
-        android:layout_marginTop="9dp"
-        android:text="비밀번호"
-        android:id="@+id/textView_join_pwd" />
-
-    <EditText
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/guideline3"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/textView_join_pwd"
-        android:hint="PW"
-        android:id="@+id/editText_join_passwd" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/editText_join_passwd"
-        app:layout_constraintStart_toStartOf="@+id/guideline1"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="50sp"
         android:text="사용자명"
         android:id="@+id/textView_join_n" />
 
-    <EditText
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/textView_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/guideline3"
+
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/textView_join_n"
         android:hint="NAME"
-        android:id="@+id/editText_join_name" />
+        android:textSize="20sp"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/editText_join_name"
+        app:layout_constraintTop_toBottomOf="@+id/textView_name"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
-        android:layout_marginTop="9dp"
-        android:text="연락처 (이메일 or 전화번호)"
+        android:layout_marginTop="9sp"
+        android:text="사용자 아이디"
         android:id="@+id/textView_join_c" />
 
-    <EditText
-        android:layout_width="0dp"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/guideline3"
+
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/textView_join_c"
-        android:hint="CALL"
-        android:id="@+id/editText_join_call" />
+        android:hint="ID"
+        android:textSize="20sp"
+        android:id="@+id/textView_call" />
 
     <!-- 오류 안내 메시지창 -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:textColor="#ff0000"
-        app:layout_constraintTop_toBottomOf="@+id/editText_join_call"
+        app:layout_constraintTop_toBottomOf="@+id/textView_call"
         android:gravity="center"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="9sp"
         android:id="@+id/textView_main_result" />
 
     <Button
@@ -161,7 +117,17 @@
         app:layout_constraintEnd_toEndOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/textView_main_result"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="15sp"
+        android:text="일기 작성하기"
+        android:id="@+id/diary_button" />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/diary_button"
+        android:layout_marginTop="15sp"
         android:text="정보 수정"
         android:id="@+id/button_join" />
 
@@ -175,6 +141,15 @@
         android:backgroundTint="#808080"
         android:id="@+id/button_join_exit" />
 
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="70sp"
+        android:layout_height="40sp"
+        android:text="로그아웃"
+        android:textSize="9sp"
+        android:backgroundTint="#808080"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

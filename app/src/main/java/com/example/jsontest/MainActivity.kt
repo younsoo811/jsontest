@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
@@ -26,6 +27,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.jsontest.databinding.ActivityMainBinding
@@ -52,6 +54,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+
 private val TAG = "jsontest"
 private val IP_ADDRESS = "192.168.55.194"
 private const val TAG_JSON = "webnautes"
@@ -64,6 +67,9 @@ private var mArrayList: ArrayList<HashMap<String, String>>? = null
 private var mJsonString: String? = null
 
 class MainActivity : AppCompatActivity() {
+
+    //뒤로가기 버튼 누른 시간
+    var backPressedTime: Long = 0
 
     lateinit var binding: ActivityMainBinding
 
@@ -80,8 +86,29 @@ class MainActivity : AppCompatActivity() {
     // 위도와 경도를 가져온다
     lateinit var locationProvider: LocationProvider
 
+
     var userID : String? = null
     var checkTime : String? = null
+    var dustData : String? = null
+    var weatherDatas : String? = null
+
+
+    //뒤로가기 버튼 누르면 호출되는 함수
+    override fun onBackPressed() {
+        //현재시간보다 크면 종료
+        if(backPressedTime+3000 > System.currentTimeMillis()){
+            super.onBackPressed()
+            ActivityCompat.finishAffinity(this)   //액티비티 종료
+            System.runFinalization()    //현재 작업중인 쓰레드가 다 종료되면, 종료 시키라는 명령어
+            System.exit(0)  //현재 액티비티를 종료시킨다
+        }else{
+            Toast.makeText(applicationContext, "한번 더 뒤로가기 버튼을 누르면 종료됩니다.",
+                Toast.LENGTH_SHORT).show()
+       }
+
+        //현재 시간 담기
+        backPressedTime = System.currentTimeMillis()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,7 +139,20 @@ class MainActivity : AppCompatActivity() {
             val nextintent = Intent(this, DiaryActivity::class.java)
             nextintent.putExtra("name", userID)
             nextintent.putExtra("time", checkTime)
+            nextintent.putExtra("dust", dustData)
+            nextintent.putExtra("weat", weatherDatas)
             startActivity(nextintent)
+        }
+
+        //사용자 정보 클릭하기
+        binding.tvUserName.setOnClickListener {
+            val userintent = Intent(this, UserIfActivity::class.java)
+            userintent.putExtra("user", TextviewIDCK!!.getText().toString())
+            userintent.putExtra("name", userID)
+            userintent.putExtra("time", checkTime)
+            userintent.putExtra("dust", dustData)
+            userintent.putExtra("weat", weatherDatas)
+            startActivity(userintent)
         }
 
         checkAllPermission()
@@ -216,18 +256,22 @@ class MainActivity : AppCompatActivity() {
             in 0..50 -> {
                 binding.tvTitle.text = "좋음"
                 binding.imgBg.setImageResource(R.drawable.bg_good)
+                dustData="좋음"
             }
             in 51..150 -> {
                 binding.tvTitle.text = "보통"
                 binding.imgBg.setImageResource(R.drawable.bg_soso)
+                dustData="보통"
             }
             in 151..200 -> {
                 binding.tvTitle.text = "나쁨"
                 binding.imgBg.setImageResource(R.drawable.bg_bad)
+                dustData="나쁨"
             }
             else -> {
                 binding.tvTitle.text = "매우 나쁨"
                 binding.imgBg.setImageResource(R.drawable.bg_worst)
+                dustData="매우 나쁨"
             }
         }
 
@@ -235,39 +279,51 @@ class MainActivity : AppCompatActivity() {
 
         if(weatherData.ic.equals("01d")){
             binding.imgWt.setImageResource(R.drawable.ic_01d)
+            weatherDatas="ic_01d"
         }
         else if(weatherData.ic.equals("01n")){
             binding.imgWt.setImageResource(R.drawable.ic_01n)
+            weatherDatas="ic_01n"
         }
         else if(weatherData.ic.equals("02d")){
             binding.imgWt.setImageResource(R.drawable.ic_02d)
+            weatherDatas="ic_02d"
         }
         else if(weatherData.ic.equals("02n")){
             binding.imgWt.setImageResource(R.drawable.ic_02n)
+            weatherDatas="ic_02n"
         }
         else if(weatherData.ic.equals("03d") || weatherData.ic.equals("03n")){
             binding.imgWt.setImageResource(R.drawable.ic_03d)
+            weatherDatas="ic_03d"
         }
         else if(weatherData.ic.equals("04d") || weatherData.ic.equals("04n")){
             binding.imgWt.setImageResource(R.drawable.ic_04d)
+            weatherDatas="ic_04d"
         }
         else if(weatherData.ic.equals("09d") || weatherData.ic.equals("09n")){
             binding.imgWt.setImageResource(R.drawable.ic_09d)
+            weatherDatas="ic_09d"
         }
         else if(weatherData.ic.equals("10n") || weatherData.ic.equals("10d")){
             binding.imgWt.setImageResource(R.drawable.ic_10n)
+            weatherDatas="ic_10n"
         }
         else if(weatherData.ic.equals("11d") || weatherData.ic.equals("11n")){
             binding.imgWt.setImageResource(R.drawable.ic_11d)
+            weatherDatas="ic_11d"
         }
         else if(weatherData.ic.equals("13d") || weatherData.ic.equals("13n")){
             binding.imgWt.setImageResource(R.drawable.ic_13d)
+            weatherDatas="ic_13d"
         }
         else if(weatherData.ic.equals("50d") || weatherData.ic.equals("50n")){
             binding.imgWt.setImageResource(R.drawable.ic_50d)
+            weatherDatas="ic_50d"
         }
         else{
             binding.imgWt.setImageResource(R.drawable.iocn_thunder)
+            weatherDatas="iocn_thunder"
         }
 
     }
@@ -423,7 +479,8 @@ class MainActivity : AppCompatActivity() {
             TextviewIDCK!!.text = result
             Log.d(TAG, "response - $result")
             if (result == null) {
-                TextviewIDCK!!.text = errorString
+                //TextviewIDCK!!.text = errorString   //에러 메시지 출력
+                TextviewIDCK!!.text = "비회원"         //에러 메시지 대신 "비회원" 문구 출력
             } else {
                 mJsonString = result
                 showResult()
@@ -433,7 +490,7 @@ class MainActivity : AppCompatActivity() {
         override fun doInBackground(vararg params: String?): String? {
             val searchKeyword1 = params[0]
             //val searchKeyword2 = params[1]
-            val serverURL = "http://192.168.55.194/namesh.php"
+            val serverURL = "http://192.168.55.194/namesh.php"  //경로 C:\\wamp64\www
             val postParameters = "name=$searchKeyword1"
             return try {
                 val url = URL(serverURL)

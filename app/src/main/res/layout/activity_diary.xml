@@ -219,7 +219,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/textView_diary_result"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="#ff0000"
+        android:layout_marginTop="9dp"
+        android:gravity="center"
+        />
+
     <LinearLayout
+        android:id="@+id/linear_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="3"
@@ -248,12 +258,12 @@
 
     </LinearLayout>
 
-
         <ListView
         android:id="@+id/mainListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="match_parent"
+            android:stackFromBottom="true"
+        app:layout_constraintBottom_toBottomOf="@id/linear_btn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">

@@ -33,14 +33,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05"/>
+        app:layout_constraintGuide_percent="0.12" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15"/>
+        app:layout_constraintGuide_percent="0.22"/>
 
 
     <TextView
@@ -64,6 +64,7 @@
         android:id="@+id/editText_join_id"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/textView_join_name" />
@@ -102,6 +103,7 @@
     <EditText
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/textView_join_pwd"
@@ -119,6 +121,7 @@
     <EditText
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/textView_join_n"
@@ -136,6 +139,7 @@
     <EditText
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
         app:layout_constraintTop_toBottomOf="@+id/textView_join_c"

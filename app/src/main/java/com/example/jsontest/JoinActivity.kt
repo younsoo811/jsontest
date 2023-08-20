@@ -97,8 +97,9 @@ class JoinActivity : AppCompatActivity() {
 
         //나가기 버튼
         binding.buttonJoinExit.setOnClickListener {
-            val nextintent = Intent(this@JoinActivity, LoginActivity::class.java)
-            startActivity(nextintent)
+            /*val nextintent = Intent(this@JoinActivity, LoginActivity::class.java)
+            startActivity(nextintent)*/
+            finish()
         }
 
         mArrayList = ArrayList()
@@ -112,6 +113,10 @@ class JoinActivity : AppCompatActivity() {
             super.onPostExecute(result)
             mTextViewResult?.setText(result)
             Log.d(TAG, "POST response  - $result")
+            if (result == null) {
+                //mTextViewResult!!.text = errorString  //에러 메시지 출력
+                mTextViewResult!!.text = "서버 응답 오류!\n 잠시 후에 다시 시도해 주세요."
+            }
         }
 
         override fun doInBackground(vararg params: String?): String {

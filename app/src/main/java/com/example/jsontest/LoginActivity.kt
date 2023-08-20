@@ -22,7 +22,7 @@ import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-var mContext: Context? = null
+private var mContext: Context? = null
 private var bool = 0
 
 private val IP_ADDRESS = "192.168.55.194"
@@ -83,7 +83,6 @@ class LoginActivity : AppCompatActivity() {
 
             //val nextintent = Intent(this@LoginActivity, MainActivity::class.java)
             println("넘겨줄 변수 값은?? : "+name)
-
 
         }
 
@@ -152,13 +151,20 @@ class LoginActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            mTextViewResult!!.text = result
+            val ck = "<br>"
+            if (result != null) {
+                if(result.contains(ck)) {
+                    val str = result?.split("<br>")
+                    mTextViewResult!!.text = str?.get(0).toString() + "\n" + str?.get(1).toString()
+                }
+                else
+                    mTextViewResult!!.text = result
+            }
             Log.d(TAG, "response - $result")
             if (result == null) {
-                println("if문 실행!")
-                mTextViewResult!!.text = errorString
+                //mTextViewResult!!.text = errorString  //에러 메시지 출력
+                mTextViewResult!!.text = "서버 응답 오류!\n 잠시 후에 다시 시도해 주세요."
             } else {
-                println("else문 실행!")
                 mJsonString = result
                 showResult()
             }

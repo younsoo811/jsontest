@@ -120,8 +120,9 @@ class UpdateActivity : AppCompatActivity() {
 
         //나가기 버튼
         binding.buttonJoinExit.setOnClickListener {
-            val nextintent = Intent(this@UpdateActivity, DiaryActivity::class.java)
-            startActivity(nextintent)
+            /*val nextintent = Intent(this@UpdateActivity, DiaryActivity::class.java)
+            startActivity(nextintent)*/
+            finish()
         }
 
         mArrayList = ArrayList()

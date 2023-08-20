@@ -1,10 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".LoginActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15"
+         />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -12,57 +42,89 @@
         android:gravity="center"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:layout_margin="30sp"
-        android:text="어제 그리고 오늘" />
+        android:text="어제 그리고 오늘"
+        app:layout_constraintTop_toTopOf="@+id/guideline5"/>
 
     <TextView
+        android:id="@+id/textView_main_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="아이디"
-        android:layout_marginTop="30sp"
-        android:id="@+id/textView_main_name" />
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        />
 
     <EditText
-        android:layout_width="match_parent"
+        android:id="@+id/editText_main_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/editText_main_name" />
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_name"
+        />
 
     <TextView
+        android:id="@+id/textView_main_country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="비밀번호"
-        android:id="@+id/textView_main_country" />
+        android:layout_marginTop="9dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/editText_main_name"
+        />
 
     <EditText
-        android:layout_width="match_parent"
+        android:id="@+id/editText_main_country"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/editText_main_country" />
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_country"
+        />
 
     <TextView
+        android:id="@+id/textView_main_result"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:textColor="#ff0000"
-        android:id="@+id/textView_main_result" />
+        android:layout_marginTop="9dp"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintTop_toBottomOf="@+id/editText_main_country"
+        />
 
     <Button
-        android:layout_width="match_parent"
+        android:id="@+id/button_main_login"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="로그인"
         android:backgroundTint="#808080"
-        android:id="@+id/button_main_login" />
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_result"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:id="@+id/button_main_insert"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="회원가입"
-        android:id="@+id/button_main_insert" />
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/button_main_login"
+        />
 
     <Button
-        android:layout_width="match_parent"
+        android:id="@+id/button_main_unknown"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="비회원 로그인"
         android:backgroundTint="#808080"
         android:layout_marginTop="40dp"
-        android:id="@+id/button_main_unknown" />
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/button_main_insert"/>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
