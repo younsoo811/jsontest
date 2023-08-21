@@ -99,6 +99,17 @@ class UserIfActivity : AppCompatActivity() {
             finish()
         }
 
+        // 로그아웃 버튼
+        binding.logoutButton.setOnClickListener {
+            val outintent=Intent(this@UserIfActivity, LoginActivity::class.java)
+            finish()
+
+            MySharedPreferences.setUserId(this, "")
+            MySharedPreferences.setUserPass(this, "")
+
+            startActivity(outintent)
+        }
+
     }
 
     internal class seData : AsyncTask<String?, Void?, String>() {

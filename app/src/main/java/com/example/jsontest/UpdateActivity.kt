@@ -74,10 +74,15 @@ class UpdateActivity : AppCompatActivity() {
 
             var str_arr = userInF?.split("#")
 
-            EtextId?.setHint(str_arr?.get(0))
+            EtextId?.setText(str_arr?.get(0))
+            EtextPw?.setText(str_arr?.get(1))
+            EtextName?.setText(str_arr?.get(2))
+            EtextCall?.setText(str_arr?.get(3))
+
+/*            EtextId?.setHint(str_arr?.get(0))
             EtextPw?.setHint(str_arr?.get(1))
             EtextName?.setHint(str_arr?.get(2))
-            EtextCall?.setHint(str_arr?.get(3))
+            EtextCall?.setHint(str_arr?.get(3))*/
 
         }
         else{
@@ -104,7 +109,7 @@ class UpdateActivity : AppCompatActivity() {
             val ucall = EtextCall!!.text.toString()
 
             val task = JoinData()
-            if (TextviewIDCK!!.text.toString().equals("사용가능한 ID")){
+            if (TextviewIDCK!!.text.toString().equals("사용가능한 ID") || TextviewIDCK!!.text.toString().equals("사용중인 ID")){
                 println("아이디 생성!!!!")
                 println(userID)
                 task.execute("http://$IP_ADDRESS/update.php", userID, name, country, uname, ucall)

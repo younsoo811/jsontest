@@ -10,6 +10,7 @@ import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
 import com.example.jsontest.databinding.ActivityLoginBinding
 import org.json.JSONArray
@@ -45,7 +46,25 @@ private var name: String? = null
 
 class LoginActivity : AppCompatActivity() {
 
+    //뒤로가기 버튼 누른 시간
+    var backPressedTime: Long = 0
 
+    //뒤로가기 버튼 누르면 호출되는 함수
+    override fun onBackPressed() {
+        //현재시간보다 크면 종료
+        if(backPressedTime+3000 > System.currentTimeMillis()){
+            super.onBackPressed()
+            ActivityCompat.finishAffinity(this)   //액티비티 종료
+            System.runFinalization()    //현재 작업중인 쓰레드가 다 종료되면, 종료 시키라는 명령어
+            System.exit(0)  //현재 액티비티를 종료시킨다
+        }else{
+            Toast.makeText(applicationContext, "한번 더 뒤로가기 버튼을 누르면 종료됩니다.",
+                Toast.LENGTH_SHORT).show()
+        }
+
+        //현재 시간 담기
+        backPressedTime = System.currentTimeMillis()
+    }
 
     lateinit var binding: ActivityLoginBinding
 
@@ -65,25 +84,27 @@ class LoginActivity : AppCompatActivity() {
         val buttonInsert: Button = findViewById(binding.buttonMainInsert.id) as Button
         val buttonLognin: Button = findViewById(binding.buttonMainLogin.id) as Button
 
-        buttonInsert.setOnClickListener {
 
-            //로그인 후 다른 액티비티로 전환하기
-            val nextIntent = Intent(this@LoginActivity, JoinActivity::class.java)
-            startActivity(nextIntent)
+        // SharedPreferences 안에 값이 저장되어 있지 않을 때 -> Login
+        if (MySharedPreferences.getUserId(this).isNullOrBlank()
+            || MySharedPreferences.getUserPass(this).isNullOrBlank()) {
+            Login()
+        }
+        else{   // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
+            Toast.makeText(this, "${MySharedPreferences.getUserId(this)}님 자동 로그인 되었습니다.",
+                                Toast.LENGTH_SHORT).show()
+
+            val task = GetData()
+            task.execute(MySharedPreferences.getUserPass(this), MySharedPreferences.getUserId(this))
+
+            //finish()
         }
 
-        buttonLognin.setOnClickListener {
-            name = mEditTextName!!.text.toString()
-            val country = mEditTextCountry!!.text.toString()
-            val task = GetData()
+        buttonInsert.setOnClickListener {
 
-            mArrayList?.clear()
-
-            task.execute(country, name)
-
-            //val nextintent = Intent(this@LoginActivity, MainActivity::class.java)
-            println("넘겨줄 변수 값은?? : "+name)
-
+            //회원가입 창으로 이동
+            val nextIntent = Intent(this@LoginActivity, JoinActivity::class.java)
+            startActivity(nextIntent)
         }
 
         binding.buttonMainUnknown.setOnClickListener {
@@ -97,54 +118,28 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    internal class InsertData : AsyncTask<String?, Void?, String>() {
+    fun Login(){
+            binding.buttonMainLogin.setOnClickListener {
 
-
-        override fun onPostExecute(result: String) {
-            super.onPostExecute(result)
-            mTextViewResult?.setText(result)
-            Log.d(TAG, "POST response  - $result")
-        }
-
-        override fun doInBackground(vararg params: String?): String {
-            val name = params[1]
-            val country = params[2]
-            val serverURL = params[0]
-            val postParameters = "name=$name&country=$country"
-            return try {
-                val url = URL(serverURL)
-                val httpURLConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
-                httpURLConnection.setReadTimeout(5000)
-                httpURLConnection.setConnectTimeout(5000)
-                httpURLConnection.setRequestMethod("POST")
-                httpURLConnection.connect()
-                val outputStream: OutputStream = httpURLConnection.getOutputStream()
-                outputStream.write(postParameters.toByteArray(charset("UTF-8")))
-                outputStream.flush()
-                outputStream.close()
-                val responseStatusCode: Int = httpURLConnection.getResponseCode()
-                Log.d(TAG, "POST response code - $responseStatusCode")
-                val inputStream: InputStream
-                inputStream = if (responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    httpURLConnection.getInputStream()
-                } else {
-                    httpURLConnection.getErrorStream()
+                if (mEditTextName?.text.isNullOrBlank() || mEditTextCountry?.text.isNullOrBlank()) {
+                    Toast.makeText(this, "아이디와 비밀번호를 확인하세요", Toast.LENGTH_SHORT).show()
                 }
-                val inputStreamReader = InputStreamReader(inputStream, "UTF-8")
-                val bufferedReader = BufferedReader(inputStreamReader)
-                val sb = StringBuilder()
-                var line: String? = null
-                while (bufferedReader.readLine().also { line = it } != null) {
-                    sb.append(line)
+                else{
+                    name = mEditTextName!!.text.toString()
+                    val country = mEditTextCountry!!.text.toString()
+                    val task = GetData()
+
+                    mArrayList?.clear()
+
+                    task.execute(country, name)
+
+                    //val nextintent = Intent(this@LoginActivity, MainActivity::class.java)
+                    println("넘겨줄 변수 값은?? : "+name)
                 }
-                bufferedReader.close()
-                sb.toString()
-            } catch (e: Exception) {
-                Log.d(TAG, "InsertData: Error ", e)
-                "Error: " + e.message
-            }
         }
     }
+
+
 
     internal class GetData : AsyncTask<String?, Void?, String?>() {
         var errorString: String? = null
@@ -227,26 +222,24 @@ class LoginActivity : AppCompatActivity() {
                     hashMap[TAG_ADDRESS] = address
                     mArrayList?.add(hashMap)
                 }
-                println("===리스트 출력!!   "+mArrayList)
 
-
-//                val adapter: ListAdapter = SimpleAdapter(
-//                    this,
-//                    mArrayList,
-//                    R.layout.item_list,
-//                    arrayOf(TAG_ID, TAG_NAME, TAG_ADDRESS),
-//                    intArrayOf(
-//                        R.id.textView_list_id,
-//                        R.id.textView_list_name,
-//                        R.id.textView_list_address
-//                    )
-//                )
-//                mListViewList.setAdapter(adapter)
             } catch (e: JSONException) {
                 //로그인 후 다른 액티비티로 전환하기
                 if(mTextViewResult!!.text.toString().equals("로그인 성공!")) {
                     val nextIntent = Intent(mContext, MainActivity::class.java)
-                    nextIntent.putExtra("name", name)
+
+                    // SharedPreferences 안에 값이 저장되어 있지 않을 때 -> Login
+                    if (mContext?.let { MySharedPreferences.getUserId(it).isNullOrBlank() }!!
+                        || mContext?.let { MySharedPreferences.getUserPass(it).isNullOrBlank() }!!) {
+                        mContext?.let { MySharedPreferences.setUserId(it, mEditTextName?.text.toString()) }
+                        mContext?.let { MySharedPreferences.setUserPass(it, mEditTextCountry?.text.toString()) }
+
+                        nextIntent.putExtra("name", name)
+                    }
+                    else{
+                        nextIntent.putExtra("name", MySharedPreferences.getUserId(mContext!!))
+                    }
+
                     mContext?.startActivity(nextIntent)
                 }
                 Log.d(TAG, "showResult : ", e)
