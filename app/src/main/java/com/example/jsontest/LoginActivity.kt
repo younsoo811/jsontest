@@ -26,14 +26,14 @@ import java.net.URL
 private var mContext: Context? = null
 private var bool = 0
 
-private val IP_ADDRESS = "192.168.55.194"
+private val IP_ADDRESS = "192.168.55.155"
 private val TAG = "jsontest"
 
 private var mEditTextName: EditText? = null
 private var mEditTextCountry: EditText? = null
 private var mTextViewResult: TextView? = null
 
-private const val TAG_JSON = "webnautes"
+private const val TAG_JSON = "younsoo"
 private const val TAG_ID = "id"
 private const val TAG_NAME = "name"
 private const val TAG_ADDRESS = "country"
@@ -168,7 +168,7 @@ class LoginActivity : AppCompatActivity() {
         override fun doInBackground(vararg params: String?): String? {
             val searchKeyword1 = params[0]
             val searchKeyword2 = params[1]
-            val serverURL = "http://192.168.55.194/query.php"
+            val serverURL = "http://192.168.55.155/query.php"
             val postParameters = "country=$searchKeyword1&name=$searchKeyword2"
             return try {
                 val url = URL(serverURL)

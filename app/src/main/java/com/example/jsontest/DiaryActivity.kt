@@ -25,7 +25,7 @@ import java.net.URL
 private var dContext: Context? = null
 
 private val TAG = "jsontest"
-private val IP_ADDRESS = "192.168.55.194"
+private val IP_ADDRESS = "192.168.55.155"
 
 private var TextviewIDCK: TextView? = null
 private var dTextViewResult: TextView? = null
@@ -35,7 +35,7 @@ private var EtextName: EditText? = null
 private var EtextCall: EditText? = null
 
 
-private const val TAG_JSON = "webnautes"
+private const val TAG_JSON = "younsoo"
 private const val TAG_ID = "uid"
 private const val TAG_CONT = "dcontent"
 private const val TAG_DATE = "ddate"

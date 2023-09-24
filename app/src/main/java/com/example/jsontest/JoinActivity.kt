@@ -21,7 +21,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 private val TAG = "jsontest"
-private val IP_ADDRESS = "192.168.55.194"
+private val IP_ADDRESS = "192.168.55.155"
 
 private var TextviewIDCK: TextView? = null
 private var mTextViewResult: TextView? = null
@@ -31,7 +31,7 @@ private var EtextName: EditText? = null
 private var EtextCall: EditText? = null
 
 
-private const val TAG_JSON = "webnautes"
+private const val TAG_JSON = "younsoo"
 private const val TAG_ID = "id"
 private const val TAG_NAME = "name"
 
