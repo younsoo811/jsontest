@@ -26,7 +26,7 @@ import java.net.URL
 private var mContext: Context? = null
 private var bool = 0
 
-private val IP_ADDRESS = "192.168.55.155"
+private val IP_ADDRESS = "221.140.227.176:7000"
 private val TAG = "jsontest"
 
 private var mEditTextName: EditText? = null
@@ -168,7 +168,7 @@ class LoginActivity : AppCompatActivity() {
         override fun doInBackground(vararg params: String?): String? {
             val searchKeyword1 = params[0]
             val searchKeyword2 = params[1]
-            val serverURL = "http://192.168.55.155/query.php"
+            val serverURL = "http://221.140.227.176:7000/query.php"
             val postParameters = "country=$searchKeyword1&name=$searchKeyword2"
             return try {
                 val url = URL(serverURL)

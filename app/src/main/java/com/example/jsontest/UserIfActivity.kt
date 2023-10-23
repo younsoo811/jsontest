@@ -26,7 +26,7 @@ import java.net.URL
 private var UContext: Context? = null
 
 private val TAG = "jsontest"
-private val IP_ADDRESS = "192.168.55.155"
+private val IP_ADDRESS = "221.140.227.176:7000"
 
 private var mTextViewResult: TextView? = null
 private var TviewId: TextView? = null

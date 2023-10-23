@@ -21,7 +21,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 private val TAG = "jsontest"
-private val IP_ADDRESS = "192.168.55.155"
+private val IP_ADDRESS = "221.140.227.176:7000"
 
 private var TextviewIDCK: TextView? = null
 private var mTextViewResult: TextView? = null
@@ -183,7 +183,7 @@ class JoinActivity : AppCompatActivity() {
         override fun doInBackground(vararg params: String?): String? {
             val searchKeyword1 = params[0]
             //val searchKeyword2 = params[1]
-            val serverURL = "http://192.168.55.194/search.php"
+            val serverURL = "http://221.140.227.176:7000/search.php"
             val postParameters = "name=$searchKeyword1"
             return try {
                 val url = URL(serverURL)

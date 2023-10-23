@@ -25,7 +25,7 @@ import java.net.URL
 private var dContext: Context? = null
 
 private val TAG = "jsontest"
-private val IP_ADDRESS = "192.168.55.155"
+private val IP_ADDRESS = "221.140.227.176:7000"
 
 private var TextviewIDCK: TextView? = null
 private var dTextViewResult: TextView? = null
@@ -116,9 +116,9 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
 
 
         binding.btnUserUp.setOnClickListener{
-            val nextintent = Intent(this, UpdateActivity::class.java)
+            //val nextintent = Intent(this, UpdateActivity::class.java)
 
-            val task = DiaryActivity.seData()
+            val task = seData()
             task.execute("http://$IP_ADDRESS/allsh.php", userID)
 
             //nextintent.putExtra("name", userID)
@@ -129,7 +129,7 @@ class DiaryActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnUserDel.setOnClickListener(this)
 
         mArrayList = ArrayList()
-        //updateUI()
+
     }
 
     override fun onClick(v: View?) {

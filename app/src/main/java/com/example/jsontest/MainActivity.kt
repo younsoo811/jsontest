@@ -56,7 +56,7 @@ import java.util.*
 
 
 private val TAG = "jsontest"
-private val IP_ADDRESS = "192.168.55.155"
+private val IP_ADDRESS = "221.140.227.176:7000"
 private const val TAG_JSON = "younsoo"
 private const val TAG_ID = "id"
 private const val TAG_NAME = "name"
@@ -490,7 +490,7 @@ class MainActivity : AppCompatActivity() {
         override fun doInBackground(vararg params: String?): String? {
             val searchKeyword1 = params[0]
             //val searchKeyword2 = params[1]
-            val serverURL = "http://192.168.55.155/namesh.php"  //경로 C:\\wamp64\www
+            val serverURL = "http://221.140.227.176:7000/namesh.php"  //경로 C:\\wamp64\www
             val postParameters = "name=$searchKeyword1"
             return try {
                 val url = URL(serverURL)
